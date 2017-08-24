@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
+/*const validateStudent  = require('./src/student.js');*/
 let db;
 
 const students = [];
@@ -28,7 +29,7 @@ app.get('/api/students',(req,res) => {
         })
 });
 
-const validStudentBelts = {
+const validStudentBelt = {
     White: true,
     Yellow: true,
 };
@@ -49,9 +50,9 @@ function validateStudent(student) {
         }
     }
 
-    if (!validStudentBelts[student.belt]) {
+    if (!validStudentBelt[student.belt]) {
         return `${student.belt} is not a valid belt!`;
-            return null;
+        return null;
     }
 }
 

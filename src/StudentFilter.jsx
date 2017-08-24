@@ -1,3 +1,4 @@
+import React from 'react';
 export default class StudentFilter extends React.Component {
     render () {
         return (

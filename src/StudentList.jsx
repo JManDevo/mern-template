@@ -1,3 +1,6 @@
+import React from 'react';
+import 'whatwg-fetch';
+import {Link} from 'react-router-dom';
 import StudentAdd from './StudentAdd.jsx';
 import StudentFilter from './StudentFilter.jsx';
 
@@ -77,18 +80,18 @@ const StudentRow = (props) => {
     const student = props.student;
     return (
         <tr>
-            <td>{student.id}</td>
+            <td></td>
             <td>{student.belt}</td>
             <td>{student.name}</td>
             <td>{student.appearances}</td>
         </tr>
     );
 
-}
+};
 
 function StudentTable (props) {
 
-    const studentRows = props.students.map(student => <StudentRow key={student.id} student={student} />)
+    const studentRows = props.students.map(student => <StudentRow key={student._id} student={student} />)
     return (
         <table className="bordered-table">
             <thead>
@@ -105,11 +108,4 @@ function StudentTable (props) {
         </table>
     );
 
-}
-
-StudentRow.propTypes = {
-    id: React.PropTypes.number.isRequired,
-    belt: React.PropTypes.string,
-    name: React.PropTypes.string,
-    appearances: React.PropTypes.string
 }
