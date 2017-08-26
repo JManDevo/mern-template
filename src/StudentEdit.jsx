@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link
-} from 'react-router-dom';
+} from 'react-router';
 
 export default class StudentEdit extends React.Component {
     render() {

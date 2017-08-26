@@ -1,6 +1,6 @@
 import React from 'react';
 import 'whatwg-fetch';
-import {Link} from 'react-router-dom';
+import {Link} from 'react-router';
 import StudentAdd from './StudentAdd.jsx';
 import StudentFilter from './StudentFilter.jsx';
 
@@ -80,7 +80,7 @@ const StudentRow = (props) => {
     const student = props.student;
     return (
         <tr>
-            <td></td>
+            <td><Link to={`/students/${props.student._id}`}>{props.student._id.substr(-4)}</Link></td>
             <td>{student.belt}</td>
             <td>{student.name}</td>
             <td>{student.appearances}</td>
