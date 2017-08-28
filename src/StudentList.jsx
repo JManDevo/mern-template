@@ -11,14 +11,28 @@ export  default class StudentList extends React.Component {
         this.state = { students: []};
 
         this.createStudent = this.createStudent.bind(this);
+        this.setFilter = this.setFilter.bind(this);
+    }
+
+    setFilter(query) {
+        this.props.router.push({apthname:this.props.location.pathname, query})
     }
 
     componentDidMount() {
         this.loadData();
     }
 
+    componentDidUpdate(prevProps) {
+        const oldQuery = prevProps.location.query;
+        const newQuery = this.props.location.query;
+        if (oldQuery.belt === newQuery.belt) {
+            return;
+        }
+        this.loadData();
+    }
+
     loadData() {
-        fetch('api/students')
+        fetch(`api/students${this.props.location.search}`)
             .then(response => response.json())
             .then(data => {
                 console.log ("Toal number of students: ", data._metadata.total_count);
@@ -64,7 +78,7 @@ export  default class StudentList extends React.Component {
 
                 <h1>Student Tracker</h1>
                 <hr />
-                <StudentFilter />
+                <StudentFilter setFilter={this.setFilter} initFilter={this.props.location.query} />
                 <hr />
                 <StudentTable students={this.state.students} />
                 <hr />
@@ -109,3 +123,8 @@ function StudentTable (props) {
     );
 
 }
+
+StudentList.propTypes = {
+    location:React.PropTypes.object.isRequired,
+    router:React.PropTypes.object,
+};

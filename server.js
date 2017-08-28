@@ -1,7 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
 /*const validateStudent  = require('./src/student.js');*/
+const path = require('path');
 let db;
 
 const students = [];
@@ -22,16 +24,51 @@ app.use(bodyParser.json());
 
 
 app.get('/api/students',(req,res) => {
-    db.collection('students').find().toArray()
+    const filter = {};
+    if (req.query.belt) filter.belt = req.query.belt;
+
+    db.collection('students').find(filter).toArray()
         .then(students => {
             const metadata = {total_count: students.length};
             res.json({_metadata:metadata,records:students});
         })
 });
 
+
+app.get('/api/students/:id',(req,res) => {
+    let studentId;
+    try {
+        studentId = new ObjectId(req.params.id);
+    } catch(error) {
+
+        res.status(422).json({message: `Invalid student ID format: ${error}`});
+        return;
+
+    }
+
+    db.collection('students').find({_id:studentId}).limit(1)
+        .next()
+        .then(student => {
+            if (!student) res.status(404).json({message: `No such student ${studentId}`});
+            else res.json(student);
+        })
+        .catch(error => {
+            consol.log(error);
+            res.status(500).json({message: `internal server error ${error}`});
+        });
+
+
+
+});
+
+app.get('*',(req,res) => {
+   res.sendFile(path.resolve('static/index.html'));
+});
+
 const validStudentBelt = {
     White: true,
     Yellow: true,
+    Orange: true,
 };
 
 const studentFieldType = {

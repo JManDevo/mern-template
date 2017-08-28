@@ -16,7 +16,8 @@ module.exports = {
             '/api/*': {
                 target: 'http://localhost:3000'
             }
-        }
+        },
+        historyApiFallback: true,
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({name:'vendor',filename:'vendor.bundle.js'})
