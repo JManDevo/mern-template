@@ -1,3 +1,4 @@
+sudo service mongod start
 npm start
 npm run watch
 node_modules/.bin/webpack-dev-server --hot --inline
